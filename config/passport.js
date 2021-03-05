@@ -1,7 +1,7 @@
 require('dotenv').config();
 // A passport strategy for authenticating with a JSON Web Token
 // This allows to authenticate endpoints using a token
-const JWTStrategy = require('passport-jwt').Strategy
+const JwtStrategy = require('passport-jwt').Strategy
 const ExtractJwt= require('passport-jwt').ExtractJwt
 const mongoose = require('mongoose');
 
@@ -13,7 +13,7 @@ options.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 options.secretOrKey = process.env.JWT_SECRET;
 
 module.exports = (passport) => {
-    passport.use(new Strategy(options, (jwt_payload, done) => {
+    passport.use(new JwtStrategy(options, (jwt_payload, done) => {
         //Have a user that were find by the id inside of the payload
         //when we get the user back, we will check to see if user in DB
         User.findById(jwt_payload.id).then((user) => {
